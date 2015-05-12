@@ -1,2 +1,3 @@
-# D-NDN
-NDN Client Library for D
+--------------------------------------------------
+DNDN: A Named Data Networking client library for D
+--------------------------------------------------
