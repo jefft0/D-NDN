@@ -29,6 +29,9 @@ import std.algorithm.comparison;
  * buffer so that it is OK to pass the object into methods because the new or
  * old owner can’t change the bytes.
  * Note that the pointer to the ubyte array can be null.
+ * Blob is defined as a struct, not a class, because it only holds a pointer to an
+ * immutable array, so pass by value is correct and more efficient, and the struct
+ * avoids allocating a class on the heap.
  */
 struct Blob
 {
@@ -65,16 +68,22 @@ struct Blob
   buf() { return buffer_; }
 
   size_t
-  size() { return buffer_.length; }
+  size() immutable
+  {
+    if (buffer_ != null)
+      return buffer_.length; 
+    else
+      return 0;
+  }
 
   bool
-  isNull() { return buffer_ == null; }
+  isNull() immutable { return buffer_ == null; }
 
   bool
-  equals(Blob other) { return buffer_ == other.buffer_; }
+  equals(Blob other) immutable { return buffer_ == other.buffer_; }
 
   int
-  compare(Blob other)
+  compare(Blob other) immutable
   {
     if (buffer_ == null && other.buffer_ == null)
       return 0;
@@ -89,7 +98,7 @@ struct Blob
   // Note: The automatic == operator is already correct.
 
   string
-  toString() 
+  toString() immutable
   {
     if (buffer_ == null)
       return "";
@@ -99,7 +108,7 @@ struct Blob
   }
 
   string
-  toHex() { return buffer_ == null ? "" : toHex(buffer_); }
+  toHex() immutable { return buffer_ == null ? "" : toHex(buffer_); }
   
   static string
     toHex(const(ubyte)[] buffer)
@@ -111,5 +120,5 @@ struct Blob
     return output.data;
   }
 
-  private immutable(ubyte)[] buffer_;
+  private immutable immutable(ubyte)[] buffer_;
 }
