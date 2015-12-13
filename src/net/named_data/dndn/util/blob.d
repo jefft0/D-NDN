@@ -35,12 +35,17 @@ import std.algorithm.comparison;
  */
 struct Blob
 {
-  this(immutable(ubyte)[] buffer) 
+  this(const Blob blob)
+  {
+    buffer_ = blob.buffer_;
+  }
+
+  this(immutable(ubyte)[] buffer)
   { 
     buffer_ = buffer; 
   }
   
-  this(const(ubyte)[] buffer, bool copy = true)
+  this(const ubyte[] buffer, bool copy = true)
   {
     if (buffer != null) {
       if (copy)
@@ -50,7 +55,7 @@ struct Blob
     }
   }
 
-  this(const(int)[] buffer)
+  this(const int[] buffer)
   {
     if (buffer != null)
       buffer_ = to!(immutable(ubyte)[])(buffer);
@@ -62,13 +67,11 @@ struct Blob
     buffer_ = cast(immutable(ubyte[]))value;
   }
 
-  // Note: The automatic copy constructor and default construtor are already correct.
-
   immutable(ubyte)[]
-  buf() { return buffer_; }
+  buf() const { return buffer_; }
 
   size_t
-  size() immutable
+  size() const
   {
     if (buffer_ != null)
       return buffer_.length; 
@@ -77,13 +80,13 @@ struct Blob
   }
 
   bool
-  isNull() immutable { return buffer_ == null; }
+  isNull() const { return buffer_ == null; }
 
   bool
-  equals(Blob other) immutable { return buffer_ == other.buffer_; }
+  equals(const Blob other) const { return buffer_ == other.buffer_; }
 
   int
-  compare(Blob other) immutable
+  compare(const Blob other) const
   {
     if (buffer_ == null && other.buffer_ == null)
       return 0;
@@ -98,7 +101,7 @@ struct Blob
   // Note: The automatic == operator is already correct.
 
   string
-  toString() immutable
+  toString() const
   {
     if (buffer_ == null)
       return "";
@@ -108,17 +111,17 @@ struct Blob
   }
 
   string
-  toHex() immutable { return buffer_ == null ? "" : toHex(buffer_); }
+  toHex() const { return buffer_ == null ? "" : toHex(buffer_); }
   
   static string
-    toHex(const(ubyte)[] buffer)
+  toHex(const ubyte[] buffer)
   {
     auto output = appender!string();
     foreach (x; buffer)
       formattedWrite(output, "%02x", x);
-    
+
     return output.data;
   }
 
-  private immutable immutable(ubyte)[] buffer_;
+  private immutable ubyte[] buffer_;
 }
