@@ -71,13 +71,7 @@ struct Blob
   buf() const { return buffer_; }
 
   size_t
-  size() const
-  {
-    if (buffer_ != null)
-      return buffer_.length; 
-    else
-      return 0;
-  }
+  size() const { return buffer_.length; }
 
   bool
   isNull() const { return buffer_ == null; }

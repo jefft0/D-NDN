@@ -62,13 +62,7 @@ class SignedBlob
   }
 
   size_t
-  signedSize() const
-  {
-    if (signedBuffer_ != null)
-      return signedBuffer_.length; 
-    else
-      return 0;
-  }
+  signedSize() const { return signedBuffer_.length; }
 
   immutable(ubyte)[]
   signedBuf() const { return signedBuffer_; }
