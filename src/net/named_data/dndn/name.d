@@ -385,4 +385,3 @@ class Name : ChangeCountable {
   private const(Component)[] components_;
   private ulong changeCount_ = 0;
 }
-

@@ -26,8 +26,7 @@ import net.named_data.dndn.util.blob;
  * the offsets of a signed portion (e.g., the bytes of Data packet).
  * The methods of Blob are available, including Blob.size and Blob.buf.
  */
-class SignedBlob
-{
+class SignedBlob {
   /**
    * Create a new SignedBlob as a copy of the given signedBlob.
    * Params:
@@ -131,4 +130,3 @@ class SignedBlob
   private size_t signedPortionBeginOffset_;
   private size_t signedPortionEndOffset_;
 }
-

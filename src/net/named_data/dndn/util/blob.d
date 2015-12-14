@@ -33,8 +33,7 @@ import std.algorithm.comparison;
  * immutable array, so pass by value is correct and more efficient, and the struct
  * avoids allocating a class on the heap.
  */
-struct Blob
-{
+struct Blob {
   /**
    * Create a Blob and take another pointer to the given blob's buffer.
    * Params:

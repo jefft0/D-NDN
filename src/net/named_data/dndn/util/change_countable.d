@@ -23,8 +23,7 @@ module net.named_data.dndn.util.change_countable;
  * A class implements ChangeCountable if it has a method getChangeCount.  This
  * is used by the class ChangeCounter.
  */
-interface ChangeCountable
-{
+interface ChangeCountable {
   /**
    * Get the change count for the object which increases monotonically when the
    * fields of the object are changed.
@@ -32,4 +31,3 @@ interface ChangeCountable
    */
   ulong getChangeCount();
 }
-
