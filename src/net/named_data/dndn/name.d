@@ -95,14 +95,14 @@ class Name : ChangeCountable {
 
   this(const Name name)
   {
-    components_ = (cast(Component[])name.components_).dup;
+    components_ ~= name.components_;
   }
 
   this(const Component[] components)
   {
     foreach (component; components)
       enforce(component !is null, "A name component cannot be a null object");
-    components_ = (cast(Component[])components).dup;
+    components_ ~= components;
   }
 
   // TODO: this(string uri)
