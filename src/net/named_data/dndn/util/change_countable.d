@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (C) 2015 Regents of the University of California.
  * @author: Jeff Thompson <jefft0@remap.ucla.edu>
  *
@@ -25,6 +25,11 @@ module net.named_data.dndn.util.change_countable;
  */
 interface ChangeCountable
 {
+  /**
+   * Get the change count for the object which increases monotonically when the
+   * fields of the object are changed.
+   * Returns: The change count.
+   */
   ulong getChangeCount();
 }
 

@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (C) 2015 Regents of the University of California.
  * @author: Jeff Thompson <jefft0@remap.ucla.edu>
  *
@@ -31,31 +31,63 @@ class Name : ChangeCountable {
    * A Name.Component holds a read-only name component value.
    */
   static class Component {
+    /**
+     * Create a new Name.Component with a zero-length value.
+     */
     this()
     { 
       value_ = Blob(new immutable(ubyte)[0]); 
     }
 
+    /**
+     * Create a new Name.Component, using the existing the Blob value.
+     * Params:
+     * value = The component value.  value may not be null, but
+     *   value.buf() may be null.
+     */
     this(const Blob value)
     { 
       value_ = value; 
     }
 
+    /**
+     * Create a new Name.Component, taking another pointer to the component's
+     * read-only value.
+     * Params:
+     * component = The component to copy.
+     */
     this(const Component component)
     {
       value_ = component.value_;
     }
 
+    /**
+     * Create a new Name.Component and take the immutable ubyte array as the component's
+     * read-only value.
+     * Params:
+     * buffer = The immutable ubyte array for the value. This may be null.
+     */
     this(immutable(ubyte)[] buffer)
     { 
       value_ = Blob(buffer); 
     }
 
+    /**
+     * Create a new Name.Component from the string value.
+     * Params:
+     * value = The string (which in D is already UTF-8 encoded).
+     * Note: This does not escape %XX values.  If you need to escape, use
+     * Name.fromEscapedString.
+     */
     this(string value)
     { 
       value_ = Blob(value); 
     }
 
+    /**
+     * Get the component value.
+     * Returns: The component value.
+     */
     Blob
     getValue() const { return value_; }
 
@@ -70,9 +102,33 @@ class Name : ChangeCountable {
     // TODO: fromNumber
     // TODO: fromNumberWithMarker
 
+    /**
+     * Check if this is the same component as other.
+     * Params:
+     * other = The other Component to compare with.
+     * Returns: true if the components are equal, otherwise false.
+     */
     bool
     equals(const Component other) const { return value_.equals(other.value_); }
 
+    override bool 
+      opEquals(Object other) const 
+    {
+      auto component = cast(Component)other;
+      if (!component)
+        return false;
+      
+      return equals(component);
+    }
+
+    /**
+     * Compare this to the other Component using NDN canonical ordering.
+     * Params:
+     * other = The other Component to compare with.
+     * Returns 0 If they compare equal, -1 if this comes before other in the
+     * canonical ordering, or 1 if this comes after other in the canonical
+     * ordering.
+     */
     int
     compare(const Component other) const
     {
@@ -85,19 +141,35 @@ class Name : ChangeCountable {
       return value_.compare(other.value_);
     }
 
+    override int 
+    opCmp(Object other) const { return compare(cast(Component)other); }
+
     private Blob value_;
   }
 
+  /**
+   * Create a new Name with no components.
+   */
   this()
   {
     components_ = new Component[0];
   }
 
+  /**
+   * Create a new Name with the components in the given name.
+   * Params:
+   * name = The name with components to copy from.
+   */
   this(const Name name)
   {
     components_ ~= name.components_;
   }
 
+  /**
+   * Create a new Name, copying the components.
+   * Params:
+   * components = The components to copy.
+   */
   this(const Component[] components)
   {
     foreach (component; components)
@@ -107,9 +179,20 @@ class Name : ChangeCountable {
 
   // TODO: this(string uri)
 
+  /**
+   * Get the number of components.
+   * Returns: The number of components.
+   */
   size_t
   size() const { return components_.length; }
 
+  /**
+   * Get the component at the given index.
+   * Params:
+   * i = The index of the component, starting from 0. However, if i is
+   *   negative, return the component at size() - (-i).
+   * Returns: The name component at the index.
+   */
   const(Component)
   get(int i) const
   {
@@ -121,6 +204,9 @@ class Name : ChangeCountable {
 
   // TODO: set
 
+  /**
+   * Clear all the components.
+   */
   void
   clear()
   {
@@ -128,18 +214,36 @@ class Name : ChangeCountable {
     ++changeCount_;
   }
 
+  /**
+   * Append a new component, taking the immutable ubyte array as the component value.
+   * Params:
+   * value = The immutable ubyte array for the component.
+   * Returns: This name so that you can chain calls to append.
+   */
   Name
   append(immutable(ubyte)[] value)
   {
     return append(new Component(value));
   }
 
+  /**
+   * Append a new component, using the existing Blob value.
+   * Params:
+   * value = The component value.
+   * Returns: This name so that you can chain calls to append.
+   */
   Name
   append(const Blob value)
   {
     return append(new Component(value));
   }
 
+  /**
+   * Append the component to this name.
+   * Params:
+   * component = The component to append.
+   * Returns: This name so that you can chain calls to append.
+   */
   Name
   append(const Component component)
   {
@@ -148,6 +252,12 @@ class Name : ChangeCountable {
     return this;
   }
 
+  /**
+   * Append all the components of the given name to this name.
+   * Params:
+   * name = The Name with components to append.
+   * Returns: This name so that you can chain calls to append.
+   */
   Name
   append(const Name name)
   {
@@ -159,6 +269,15 @@ class Name : ChangeCountable {
     return this;
   }
 
+  /**
+   * Append a component from the string value.
+   * Params:
+   * value = The string (which in D is already UTF-8 encoded).
+   * Note: This does not escape %XX values.  If you need to escape, use
+   * Name.fromEscapedString. Also, if the string has "/", this does not split
+   * into separate components.  If you need that then use
+   * append(new Name(value)).
+   */
   Name
   append(string value)
   {
@@ -174,6 +293,14 @@ class Name : ChangeCountable {
   // TODO: appendTimestamp
   // TODO: appendSequenceNumber
 
+  /**
+   * Check if this name has the same component count and components as the given
+   * name.
+   * Params:
+   * name = The Name to check.
+   * Returns: true if the object is a Name and the names are equal, otherwise
+   * false.
+   */
   bool
   equals(const Name name) const
   {
@@ -189,10 +316,40 @@ class Name : ChangeCountable {
     return true;
   }
 
+  override bool 
+  opEquals(Object other) const 
+  {
+    auto name = cast(Name)other;
+    if (!name)
+      return false;
+    
+    return equals(name);
+  }
+
   // TODO: match
   // TODO: wireEncode
   // TODO: wireDecode
 
+  /**
+   * Compare this to the other Name using NDN canonical ordering.  If the first
+   * components of each name are not equal, this returns -1 if the first comes
+   * before the second using the NDN canonical ordering for name components, or
+   * 1 if it comes after. If they are equal, this compares the second components
+   * of each name, etc.  If both names are the same up to the size of the
+   * shorter name, this returns -1 if the first name is shorter than the second
+   * or 1 if it is longer.  For example, sorted gives:
+   * /a/b/d /a/b/cc /c /c/a /bb .  This is intuitive because all names with the
+   * prefix /a are next to each other.  But it may be also be counter-intuitive
+   * because /c comes before /bb according to NDN canonical ordering since it is
+   * shorter.
+   * Params:
+   * other = The other Name to compare with.
+   * Returns: 0 If they compare equal, -1 if this Name comes before other in the
+   * canonical ordering, or 1 if this Name comes after other in the canonical
+   * ordering.
+   * See_Also: 
+   * <a href="http://named-data.net/doc/0.2/technical/CanonicalOrder.html">Canonical Order</a>
+   */
   int
   compare(const Name other) const
   {
@@ -215,6 +372,9 @@ class Name : ChangeCountable {
     else
       return 0;
   }
+
+  override int 
+  opCmp(Object other) const { return compare(cast(Name)other); }
 
   ulong
   getChangeCount() const { return changeCount_; }

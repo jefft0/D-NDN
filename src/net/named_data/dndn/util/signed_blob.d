@@ -1,4 +1,4 @@
-﻿/**
+﻿/*
  * Copyright (C) 2015 Regents of the University of California.
  * @author: Jeff Thompson <jefft0@remap.ucla.edu>
  *
@@ -28,14 +28,29 @@ import net.named_data.dndn.util.blob;
  */
 class SignedBlob
 {
+  /**
+   * Create a new SignedBlob as a copy of the given signedBlob.
+   * Params:
+   * signedBlob = The SignedBlob to copy.
+   */
   this(const SignedBlob signedBlob)
   {
-    blob_ = Blob(signedBlob.buf(), false);
+    blob_ = Blob(signedBlob.buf());
     signedPortionBeginOffset_ = signedBlob.signedPortionBeginOffset_;
     signedPortionEndOffset_ = signedBlob.signedPortionEndOffset_;
     signedBuffer_ = getSignedBuffer();
   }
 
+  /**
+   * Create a new SignedBlob and take another pointer to the given blob's
+   * buffer.
+   * Params: 
+   * blob = The Blob from which we take another pointer to the same buffer.
+   * signedPortionBeginOffset = The offset in the buffer of the beginning
+   * of the signed portion.
+   * signedPortionEndOffset = The offset in the buffer of the end of the
+   * signed portion.
+   */
   this(const Blob blob, size_t signedPortionBeginOffset, size_t signedPortionEndOffset)
   {
     blob_ = Blob(blob);
@@ -44,16 +59,38 @@ class SignedBlob
     signedBuffer_ = getSignedBuffer();
   }
 
-  this(const ubyte[] buffer, bool copy, 
+  /**
+   * Create a SignedBlob and take the immutable ubyte array as the given blob's buffer.
+   * Params:
+   * buffer = The immutable ubyte array for this Blob's buffer.
+   * signedPortionBeginOffset = The offset in the buffer of the beginning
+   * of the signed portion.
+   * signedPortionEndOffset = The offset in the buffer of the end of the
+   * signed portion.
+   */
+  this(immutable(ubyte)[] buffer, 
        size_t signedPortionBeginOffset, size_t signedPortionEndOffset)
   {
-    blob_ = Blob(buffer, copy);
+    blob_ = Blob(buffer);
     signedPortionBeginOffset_ = signedPortionBeginOffset;
     signedPortionEndOffset_ = signedPortionEndOffset;
     signedBuffer_ = getSignedBuffer();
   }
 
-  this(const ubyte[] value, size_t signedPortionBeginOffset, size_t signedPortionEndOffset)
+  /**
+   * Create a new SignedBlob with a copy of the bytes in the array.
+   * Params:
+   * value = The ubyte array to copy.
+   * signedPortionBeginOffset = The offset in the buffer of the beginning
+   * of the signed portion.
+   * signedPortionEndOffset = The offset in the buffer of the end of the
+   * signed portion.
+   * Note: If you want to create a SignedBlob from a non-immutable ubyte array 
+   * without copying, you can explicitly cast with 
+   * cast(immutable(ubyte)[])buffer. But it is your responsibility
+   * to ensure that other parts of the program don't change the array values.
+   */
+  this(const(ubyte)[] value, size_t signedPortionBeginOffset, size_t signedPortionEndOffset)
   {
     blob_ = Blob(value);
     signedPortionBeginOffset_ = signedPortionBeginOffset;
@@ -61,9 +98,19 @@ class SignedBlob
     signedBuffer_ = getSignedBuffer();
   }
 
+  /**
+   * Get the length of the signed portion of the immutable ubyte buffer.
+   * Returns: The length of the signed portion, or 0 if the pointer is null.
+   */
   size_t
   signedSize() const { return signedBuffer_.length; }
 
+  /**
+   * Get the slice of the immutable ubyte array for the signed portion 
+   * of the ubyte buffer.
+   * Returns The the slice of the immutable ubyte array, 
+   * or null if the pointer is null.
+   */
   immutable(ubyte)[]
   signedBuf() const { return signedBuffer_; }
 
