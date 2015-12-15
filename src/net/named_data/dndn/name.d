@@ -210,7 +210,7 @@ class Name : ChangeCountable {
   void
   clear()
   {
-    components_ = new Component[0];
+    components_.length = 0;
     ++changeCount_;
   }
 
