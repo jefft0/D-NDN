@@ -65,7 +65,7 @@ class DynamicUbyteArray {
    * which is offset + value.length.
    */
   size_t
-  copy(const ref ubyte[] value, size_t offset)
+  copy(ref const ubyte[] value, size_t offset)
   {
     auto endOffset = value.length + offset;
     ensureLength(endOffset);
@@ -110,7 +110,7 @@ class DynamicUbyteArray {
    * copying.
    */
   void
-  copyFromBack(const ref ubyte[] value, size_t offsetFromBack)
+  copyFromBack(ref const ubyte[] value, size_t offsetFromBack)
   {
     ensureLengthFromBack(offsetFromBack);
     auto startOffset = array_.length - offsetFromBack;
