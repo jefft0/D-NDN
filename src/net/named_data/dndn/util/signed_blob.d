@@ -32,7 +32,7 @@ class SignedBlob {
    * Params:
    * signedBlob = The SignedBlob to copy.
    */
-  this(const SignedBlob signedBlob)
+  this(ref const SignedBlob signedBlob)
   {
     blob_ = Blob(signedBlob.buf());
     signedPortionBeginOffset_ = signedBlob.signedPortionBeginOffset_;
@@ -50,7 +50,7 @@ class SignedBlob {
    * signedPortionEndOffset = The offset in the buffer of the end of the
    * signed portion.
    */
-  this(const Blob blob, size_t signedPortionBeginOffset, size_t signedPortionEndOffset)
+  this(ref const Blob blob, size_t signedPortionBeginOffset, size_t signedPortionEndOffset)
   {
     blob_ = Blob(blob);
     signedPortionBeginOffset_ = signedPortionBeginOffset;

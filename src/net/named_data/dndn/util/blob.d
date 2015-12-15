@@ -39,7 +39,7 @@ struct Blob {
    * Params:
    *   blob = The Blob from which we take another pointer to the same buffer.
    */
-  this(const Blob blob)
+  this(ref const Blob blob)
   {
     buffer_ = blob.buffer_;
   }
