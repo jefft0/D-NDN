@@ -40,7 +40,7 @@ class Tlv0_1_1WireFormat : WireFormat
    * immutable results.
    * Throws: EncodingException for invalid encoding.
    */
-  void
+  override void
   decodeName(Name name, ref immutable(ubyte)[] input) const
   {
     TlvDecoder decoder = new TlvDecoder(input);

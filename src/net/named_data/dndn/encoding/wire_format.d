@@ -19,8 +19,26 @@
 
 module net.named_data.dndn.encoding.wire_format;
 
+import net.named_data.dndn.name;
+
 class WireFormat
 {
+  /**
+   * Decode input as a name and set the fields of the Name object.
+   * Your derived class should override.
+   * Params:
+   * name = The Name object whose fields are updated.
+   * input = The ubyte array with the bytes to decode. This takes an
+   * immutable array so that slices of the input can be supplied as
+   * immutable results.
+   * Throws: EncodingException for invalid encoding.
+   */
+  void
+  decodeName(Name name, ref immutable(ubyte)[] input) const
+  {
+    throw new Exception("decodeName is not implemented");
+  }
+
   /**
    * Set the static default WireFormat used by default encoding and decoding
    * methods.
