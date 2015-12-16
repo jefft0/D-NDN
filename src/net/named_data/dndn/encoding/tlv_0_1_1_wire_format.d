@@ -49,6 +49,14 @@ class Tlv0_1_1WireFormat : WireFormat
   }
 
   /**
+   * Get a singleton instance of a Tlv0_1_1WireFormat.  To always use the
+   * preferred version NDN-TLV, you should use TlvWireFormat.get().
+   * Return: The singleton instance.
+   */
+  static Tlv0_1_1WireFormat
+  get() { return instance_; }
+
+  /**
    * Decode the name as NDN-TLV and set the fields in name.
    * Params:
    * name = The name object whose fields are set.
@@ -69,7 +77,8 @@ class Tlv0_1_1WireFormat : WireFormat
     (Name name, ref size_t signedPortionBeginOffset,
      ref size_t signedPortionEndOffset, TlvDecoder decoder)
   {
-    name.clear();
+    if (name.size() > 0) // debug
+      name.clear();
 
     auto endOffset = decoder.readNestedTlvsStart(Tlv.Name);
     
@@ -84,4 +93,11 @@ class Tlv0_1_1WireFormat : WireFormat
     
     decoder.finishNestedTlvs(endOffset);
   }
+
+  static this()
+  {
+    instance_ = new Tlv0_1_1WireFormat();
+  }
+
+  private static Tlv0_1_1WireFormat instance_;
 }
