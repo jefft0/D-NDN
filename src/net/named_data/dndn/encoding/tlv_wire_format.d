@@ -19,6 +19,7 @@
 
 module net.named_data.dndn.encoding.tlv_wire_format;
 
+import net.named_data.dndn.encoding.wire_format;
 import net.named_data.dndn.encoding.tlv_0_1_1_wire_format;
 
 /**
@@ -42,6 +43,7 @@ class TlvWireFormat : Tlv0_1_1WireFormat
   static this()
   {
     instance_ = new TlvWireFormat();
+    WireFormat.setDefaultWireFormat(instance_);
   }
 
   private static TlvWireFormat instance_;
