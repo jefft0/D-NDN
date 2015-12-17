@@ -49,7 +49,7 @@ class TlvDecoder {
    * Throws: EncodingException if the VAR-NUMBER is 64-bit or read past the end
    * of the input.
    */
-  size_t
+  final size_t
   readVarNumber()
   {
     try {
@@ -73,7 +73,7 @@ class TlvDecoder {
    * Returns: The decoded VAR-NUMBER as a size_t which we expect to be
    * at least 32 bits (and used mostly to represent array length).
    */
-  size_t
+  final size_t
   readExtendedVarNumber(int firstOctet)
   {
     try {
@@ -107,7 +107,7 @@ class TlvDecoder {
    * Throws: EncodingException if did not get the expected TLV type or the TLV length
    * exceeds the buffer length.
    */
-  size_t
+  final size_t
   readTypeAndLength(int expectedType)
   {
     auto type = this.readVarNumber();
@@ -133,7 +133,7 @@ class TlvDecoder {
    * Throws: EncodingException if did not get the expected TLV type or the TLV
    * length exceeds the buffer length.
    */
-  size_t
+  final size_t
   readNestedTlvsStart(int expectedType)
   {
     return readTypeAndLength(expectedType) + offset_;
@@ -149,7 +149,7 @@ class TlvDecoder {
    * Throws: EncodingException if the TLV length does not equal the total length
    * of the nested TLVs.
    */
-  void
+  final void
   finishNestedTlvs(size_t endOffset)
   {
     // We expect offset to be endOffset, so check this first.
@@ -185,7 +185,7 @@ class TlvDecoder {
    * Returns: true if the type of the next TLV is the expectedType,
    * otherwise false.
    */
-  bool
+  final bool
   peekType(int expectedType, size_t endOffset)
   {
     if (offset_ >= endOffset)
@@ -201,9 +201,9 @@ class TlvDecoder {
     }
   }
 
-  // TODO: readNonNegativeInteger
-  // TODO: readNonNegativeIntegerTlv
-  // TODO: readOptionalNonNegativeIntegerTlv
+  // TODO: final readNonNegativeInteger
+  // TODO: final readNonNegativeIntegerTlv
+  // TODO: final readOptionalNonNegativeIntegerTlv
 
   /**
    * Decode the type and length from this's input starting at offset, expecting
@@ -214,7 +214,7 @@ class TlvDecoder {
    * Returns: The bytes in the value as a slice on the immutable buffer.
    * Throws: EncodingException if did not get the expected TLV type.
    */
-  immutable(ubyte)[]
+  final immutable(ubyte)[]
   readBlobTlv(int expectedType)
   {
     auto length = readTypeAndLength(expectedType);
@@ -238,7 +238,7 @@ class TlvDecoder {
    * in the input buffer.  If you need a copy, then you must make a copy of the
    * return value.
    */
-  immutable(ubyte)[]
+  final immutable(ubyte)[]
   readOptionalBlobTlv(int expectedType, size_t endOffset)
   {
     if (peekType(expectedType, endOffset))
@@ -259,7 +259,7 @@ class TlvDecoder {
    * Returns: true, or else false if the next TLV doesn't have the
    * expected type.
    */
-  bool
+  final bool
   readBooleanTlv(int expectedType, size_t endOffset)
   {
     if (peekType(expectedType, endOffset)) {
@@ -276,7 +276,7 @@ class TlvDecoder {
    * Get the offset into the input, used for the next read.
    * Returns: The offset.
    */
-  size_t 
+  final size_t 
   getOffset() { return offset_; }
   
   /**
@@ -284,7 +284,7 @@ class TlvDecoder {
    * Params:
    * offset = The new offset.
    */
-  void
+  final void
   seek(size_t offset) { offset = offset; }
 
   private immutable(ubyte)[] input_;

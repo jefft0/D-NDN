@@ -88,7 +88,7 @@ class Name : ChangeCountable {
      * Get the component value.
      * Returns: The component value.
      */
-    Blob
+    final Blob
     getValue() const { return value_; }
 
     // TODO: toEscapedString
@@ -108,11 +108,11 @@ class Name : ChangeCountable {
      * other = The other Component to compare with.
      * Returns: true if the components are equal, otherwise false.
      */
-    bool
+    final bool
     equals(const Component other) const { return value_.equals(other.value_); }
 
     override bool 
-      opEquals(Object other) const 
+    opEquals(Object other) const 
     {
       auto component = cast(Component)other;
       if (!component)
@@ -129,7 +129,7 @@ class Name : ChangeCountable {
      * canonical ordering, or 1 if this comes after other in the canonical
      * ordering.
      */
-    int
+    final int
     compare(const Component other) const
     {
       if (value_.size() < other.value_.size())
@@ -183,7 +183,7 @@ class Name : ChangeCountable {
    * Get the number of components.
    * Returns: The number of components.
    */
-  size_t
+  final size_t
   size() const { return components_.length; }
 
   /**
@@ -193,7 +193,7 @@ class Name : ChangeCountable {
    *   negative, return the component at size() - (-i).
    * Returns: The name component at the index.
    */
-  const(Component)
+  final const(Component)
   get(int i) const
   {
     if (i >= 0)
@@ -207,7 +207,7 @@ class Name : ChangeCountable {
   /**
    * Clear all the components.
    */
-  void
+  final void
   clear()
   {
     components_.length = 0;
@@ -220,7 +220,7 @@ class Name : ChangeCountable {
    * value = The immutable ubyte array for the component.
    * Returns: This name so that you can chain calls to append.
    */
-  Name
+  final Name
   append(immutable(ubyte)[] value)
   {
     return append(new Component(value));
@@ -232,10 +232,10 @@ class Name : ChangeCountable {
    * value = The component value.
    * Returns: This name so that you can chain calls to append.
    */
-  Name
+  final Name
   append(const Blob value)
   {
-    return append(new Component(value));
+    return append(new const Component(value));
   }
 
   /**
@@ -244,7 +244,7 @@ class Name : ChangeCountable {
    * component = The component to append.
    * Returns: This name so that you can chain calls to append.
    */
-  Name
+  final Name
   append(const Component component)
   {
     components_ ~= component;
@@ -258,7 +258,7 @@ class Name : ChangeCountable {
    * name = The Name with components to append.
    * Returns: This name so that you can chain calls to append.
    */
-  Name
+  final Name
   append(const Name name)
   {
     if (name is this)
@@ -278,7 +278,7 @@ class Name : ChangeCountable {
    * into separate components.  If you need that then use
    * append(new Name(value)).
    */
-  Name
+  final Name
   append(string value)
   {
     return append(new Component(value));
@@ -301,7 +301,7 @@ class Name : ChangeCountable {
    * Returns: true if the object is a Name and the names are equal, otherwise
    * false.
    */
-  bool
+  final bool
   equals(const Name name) const
   {
     if (components_.length != name.components_.length)
@@ -326,9 +326,9 @@ class Name : ChangeCountable {
     return equals(name);
   }
 
-  // TODO: match
-  // TODO: wireEncode
-  // TODO: wireDecode
+  // TODO: final match
+  // TODO: final wireEncode
+  // TODO: final wireDecode
 
   /**
    * Compare this to the other Name using NDN canonical ordering.  If the first
@@ -350,7 +350,7 @@ class Name : ChangeCountable {
    * See_Also: 
    * <a href="http://named-data.net/doc/0.2/technical/CanonicalOrder.html">Canonical Order</a>
    */
-  int
+  final int
   compare(const Name other) const
   {
     for (int i = 0; i < size() && i < other.size(); ++i) {
@@ -376,7 +376,7 @@ class Name : ChangeCountable {
   override int 
   opCmp(Object other) const { return compare(cast(Name)other); }
 
-  ulong
+  final ulong
   getChangeCount() const { return changeCount_; }
 
   // TODO: fromEscapedString

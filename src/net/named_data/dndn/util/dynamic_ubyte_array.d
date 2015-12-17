@@ -41,7 +41,7 @@ class DynamicUbyteArray {
    * Params:
    * length = The minimum length for the array.
    */
-  void 
+  final void 
   ensureLength(size_t length)
   {
     if (array_.length >= length)
@@ -64,7 +64,7 @@ class DynamicUbyteArray {
    * Returns: The offset in array() at the end of the copied value, 
    * which is offset + value.length.
    */
-  size_t
+  final size_t
   copy(ref const ubyte[] value, size_t offset)
   {
     auto endOffset = value.length + offset;
@@ -82,7 +82,7 @@ class DynamicUbyteArray {
    * Params:
    * length = The minimum length for the array.
    */
-  void
+  final void
   ensureLengthFromBack(size_t length)
   {
     if (array_.length >= length)
@@ -109,7 +109,7 @@ class DynamicUbyteArray {
    * offsetFromBack = The offset from the back of array() to start
    * copying.
    */
-  void
+  final void
   copyFromBack(ref const ubyte[] value, size_t offsetFromBack)
   {
     ensureLengthFromBack(offsetFromBack);
@@ -122,7 +122,7 @@ class DynamicUbyteArray {
    * Returns: A reference to the ubyte array. Note that ensureLength
    * can change the length.
    */
-  ref ubyte[]
+  final ref ubyte[]
   array() { return array_; }
 
   private ubyte[] array_;
