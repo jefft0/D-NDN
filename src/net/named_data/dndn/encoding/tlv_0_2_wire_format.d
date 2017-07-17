@@ -74,8 +74,8 @@ class Tlv0_2WireFormat : WireFormat
    */
   private static void
   decodeName
-    (Name name, ref size_t signedPortionBeginOffset,
-     ref size_t signedPortionEndOffset, TlvDecoder decoder)
+    (Name name, out size_t signedPortionBeginOffset,
+     out size_t signedPortionEndOffset, TlvDecoder decoder)
   {
     if (name.size() > 0) // debug
       name.clear();
