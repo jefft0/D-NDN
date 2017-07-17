@@ -32,67 +32,12 @@ import net.named_data.dndn.name;
 class Tlv0_1_1WireFormat : WireFormat
 {
   /**
-   * Decode input as a name in NDN-TLV and set the fields of the Name object.
-   * Params:
-   * name = The Name object whose fields are updated.
-   * input = The ubyte array with the bytes to decode. This takes an
-   * immutable array so that slices of the input can be supplied as
-   * immutable results.
-   * Throws: EncodingException for invalid encoding.
-   */
-  override void
-  decodeName(Name name, ref immutable(ubyte)[] input) const
-  {
-    TlvDecoder decoder = new TlvDecoder(input);
-    size_t dummyBegin, dummyEnd;
-    decodeName(name, dummyBegin, dummyEnd, decoder);
-  }
-
-  /**
    * Get a singleton instance of a Tlv0_1_1WireFormat.  To always use the
    * preferred version NDN-TLV, you should use TlvWireFormat.get().
    * Return: The singleton instance.
    */
   static Tlv0_1_1WireFormat
   get() { return instance_; }
-
-  /**
-   * Decode the name as NDN-TLV and set the fields in name.
-   * Params:
-   * name = The name object whose fields are set.
-   * signedPortionBeginOffset = Return the offset in the encoding of the
-   * beginning of the signed portion. The signed portion starts from the first
-   * name component and ends just before the final name component (which is
-   * assumed to be a signature for a signed interest).
-   * If you are not decoding in order to verify, you can ignore this returned value.
-   * signedPortionEndOffset = Return the offset in the encoding of the end
-   * of the signed portion. The signed portion starts from the first
-   * name component and ends just before the final name component (which is
-   * assumed to be a signature for a signed interest).
-   * If you are not decoding in order to verify, you can ignore this returned value.
-   * decoder = The decoder with the input to decode.
-   */
-  private static void
-  decodeName
-    (Name name, ref size_t signedPortionBeginOffset,
-     ref size_t signedPortionEndOffset, TlvDecoder decoder)
-  {
-    if (name.size() > 0) // debug
-      name.clear();
-
-    auto endOffset = decoder.readNestedTlvsStart(Tlv.Name);
-    
-    signedPortionBeginOffset = decoder.getOffset();
-    // In case there are no components, set signedPortionEndOffset arbitrarily.
-    signedPortionEndOffset = signedPortionBeginOffset;
-    
-    while (decoder.getOffset() < endOffset) {
-      signedPortionEndOffset = decoder.getOffset();
-      name.append(decoder.readBlobTlv(Tlv.NameComponent));
-    }
-    
-    decoder.finishNestedTlvs(endOffset);
-  }
 
   static this()
   {

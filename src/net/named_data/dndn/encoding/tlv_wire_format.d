@@ -20,14 +20,14 @@
 module net.named_data.dndn.encoding.tlv_wire_format;
 
 import net.named_data.dndn.encoding.wire_format;
-import net.named_data.dndn.encoding.tlv_0_1_1_wire_format;
+import net.named_data.dndn.encoding.tlv_0_2_wire_format;
 
 /**
  * A TlvWireFormat extends WireFormat to override its methods to
  * implement encoding and decoding using the preferred implementation of
  * NDN-TLV.
  */
-class TlvWireFormat : Tlv0_1_1WireFormat
+class TlvWireFormat : Tlv0_2WireFormat
 {
   /**
    * Get a singleton instance of a TlvWireFormat.  Assuming that the default
