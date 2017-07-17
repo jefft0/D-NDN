@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (C) 2015 Regents of the University of California.
+ * Copyright (C) 2015-2017 Regents of the University of California.
  * @author: Jeff Thompson <jefft0@remap.ucla.edu>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,7 +67,8 @@ class Tlv
   static immutable SignatureType_DigestSha256 = 0;
   static immutable SignatureType_SignatureSha256WithRsa = 1;
   static immutable SignatureType_SignatureSha256WithEcdsa = 3;
-  
+  static immutable SignatureType_SignatureHmacWithSha256 = 4;
+
   static immutable ContentType_Default = 0;
   static immutable ContentType_Link = 1;
   static immutable ContentType_Key = 2;
@@ -91,8 +92,49 @@ class Tlv
   static immutable LocalControlHeader_NextHopFaceId = 82;
   static immutable LocalControlHeader_CachingPolicy = 83;
   static immutable LocalControlHeader_NoCache = 96;
-  
+
+  static immutable LpPacket_LpPacket = 100;
+  static immutable LpPacket_Fragment = 80;
+  static immutable LpPacket_Sequence = 81;
+  static immutable LpPacket_FragIndex = 82;
+  static immutable LpPacket_FragCount = 83;
+  static immutable LpPacket_Nack = 800;
+  static immutable LpPacket_NackReason = 801;
+  static immutable LpPacket_NextHopFaceId = 816;
+  static immutable LpPacket_IncomingFaceId = 817;
+  static immutable LpPacket_CachePolicy = 820;
+  static immutable LpPacket_CachePolicyType = 821;
+  static immutable LpPacket_IGNORE_MIN = 800;
+  static immutable LpPacket_IGNORE_MAX = 959;
+
   static immutable Link_Preference = 30;
   static immutable Link_Delegation = 31;
+
+  static immutable Encrypt_EncryptedContent = 130;
+  static immutable Encrypt_EncryptionAlgorithm = 131;
+  static immutable Encrypt_EncryptedPayload = 132;
+  static immutable Encrypt_InitialVector = 133;
+  
+  // For RepetitiveInterval.
+  static immutable Encrypt_StartDate = 134;
+  static immutable Encrypt_EndDate = 135;
+  static immutable Encrypt_IntervalStartHour = 136;
+  static immutable Encrypt_IntervalEndHour = 137;
+  static immutable Encrypt_NRepeats = 138;
+  static immutable Encrypt_RepeatUnit = 139;
+  static immutable Encrypt_RepetitiveInterval = 140;
+  static immutable Encrypt_RepeatUnit_NONE = 0;
+  static immutable Encrypt_RepeatUnit_DAY = 1;
+  static immutable Encrypt_RepeatUnit_MONTH = 2;
+  static immutable Encrypt_RepeatUnit_YEAR = 3;
+  
+  // For Schedule.
+  static immutable Encrypt_WhiteIntervalList = 141;
+  static immutable Encrypt_BlackIntervalList = 142;
+  static immutable Encrypt_Schedule = 143;
+  
+  static immutable ValidityPeriod_ValidityPeriod = 253;
+  static immutable ValidityPeriod_NotBefore = 254;
+  static immutable ValidityPeriod_NotAfter = 255;
 }
 
