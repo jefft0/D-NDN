@@ -56,7 +56,7 @@ class Name : ChangeCountable {
      * Params:
      * component = The component to copy.
      */
-    this(ref const Component component)
+    this(const Component component)
     {
       value_ = component.value_;
     }
@@ -160,7 +160,7 @@ class Name : ChangeCountable {
    * Params:
    * name = The name with components to copy from.
    */
-  this(ref const Name name)
+  this(const Name name)
   {
     components_ ~= name.components_;
   }

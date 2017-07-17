@@ -34,7 +34,7 @@ class WireFormat
    * Throws: EncodingException for invalid encoding.
    */
   void
-  decodeName(Name name, ref immutable(ubyte)[] input) const
+  decodeName(Name name, immutable(ubyte)[] input) const
   {
     throw new Exception("decodeName is not implemented");
   }

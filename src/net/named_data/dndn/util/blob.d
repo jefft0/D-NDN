@@ -39,7 +39,7 @@ struct Blob {
    * Params:
    *   blob = The Blob from which we take another pointer to the same buffer.
    */
-  this(ref const Blob blob)
+  this(const Blob blob)
   {
     buffer_ = blob.buffer_;
   }
@@ -173,7 +173,7 @@ struct Blob {
   }
 
   int 
-  opCmp(ref const Blob other) const { return compare(other); }
+  opCmp(const Blob other) const { return compare(other); }
 
   // Note: The automatic == operator is already correct.
 

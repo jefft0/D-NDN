@@ -35,7 +35,7 @@ class TlvDecoder {
    * immutable array so that slices of the input can be supplied as
    * immutable results.
    */
-  this(ref immutable(ubyte)[] input)
+  this(immutable(ubyte)[] input)
   {
     input_ = input;
   }
